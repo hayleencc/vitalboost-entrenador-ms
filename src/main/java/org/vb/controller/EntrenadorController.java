@@ -47,7 +47,7 @@ public class EntrenadorController{
             @RequestParam(required = false) String especialidad,
             @RequestParam(required = false) String modalidad
     ) {
-        return entrenadorService.searchEntrenadores(especialidad, modalidad);
+        return entrenadorService.getEntrenadores(especialidad, modalidad);
     }
 
     @Operation(summary = "Listar un coach por ID")
@@ -57,7 +57,7 @@ public class EntrenadorController{
     })
     @GetMapping("/{id}")
     public ResponseEntity<Entrenador> getCoachById(@PathVariable UUID id) {
-        Entrenador entrenador = entrenadorService.findCoachById(id);
+        Entrenador entrenador = entrenadorService.getEntrenadorById(id);
         return ResponseEntity.ok(entrenador);
     }
 

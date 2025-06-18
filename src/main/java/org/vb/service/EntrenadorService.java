@@ -11,7 +11,6 @@ import org.vb.repository.EntrenadorRepository;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class EntrenadorService {
@@ -31,13 +30,13 @@ public class EntrenadorService {
 
     }
 
-    public List<Entrenador> searchEntrenadores(String especialidad, String modalidad) {
+    public List<Entrenador> getEntrenadores(String especialidad, String modalidad) {
         especialidad = (especialidad == null || especialidad.isBlank()) ? null : especialidad;
         modalidad = (modalidad == null || modalidad.isBlank()) ? null : modalidad;
-        return entrenadorRepository.searchCoaches(especialidad, modalidad);
+        return entrenadorRepository.searchEntrenadores(especialidad, modalidad);
     }
 
-    public Entrenador findCoachById(UUID id) {
+    public Entrenador getEntrenadorById(UUID id) {
         return entrenadorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró al coach con ID: " + id));
     }
@@ -45,19 +44,6 @@ public class EntrenadorService {
     public Entrenador patchEntrenador(UUID id, UpdateEntrenadorDTO entrenadorToUpdate) {
         Entrenador existingEntrenador = entrenadorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró al coach con ID: " + id));
-
-//        if (entrenadorToUpdate.getNombreCompleto() != null) {
-//            existingEntrenador.setNombreCompleto(entrenadorToUpdate.getNombreCompleto());
-//        }
-//        if (entrenadorToUpdate.getEspecialidad() != null) {
-//            existingEntrenador.setEspecialidad(entrenadorToUpdate.getEspecialidad());
-//        }
-//        if (entrenadorToUpdate.getDatosConsultorio() != null) {
-//            existingEntrenador.setDatosConsultorio(entrenadorToUpdate.getDatosConsultorio());
-//        }
-//        if (entrenadorToUpdate.getUniversidad() != null) {
-//            existingEntrenador.setUniversidad(entrenadorToUpdate.getUniversidad());
-//        }
 
         entrenadorMapper.updateEntrenadorFromDto(entrenadorToUpdate, existingEntrenador);
         if (entrenadorToUpdate.getCostos() != null) {

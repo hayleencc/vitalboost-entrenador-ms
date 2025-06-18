@@ -16,7 +16,7 @@ public interface EntrenadorRepository extends JpaRepository<Entrenador, UUID> {
             "(:especialidad IS NULL OR :especialidad = '' OR LOWER(c.especialidad) LIKE LOWER(CONCAT('%', :especialidad, '%'))) AND " +
             "(:modalidad IS NULL OR :modalidad = '' OR LOWER(c.modalidad) LIKE LOWER(CONCAT('%', :modalidad, '%')))"
     )
-    List<Entrenador> searchCoaches(
+    List<Entrenador> searchEntrenadores(
             @Param("especialidad") String especialidad,
             @Param("modalidad") String modalidad
     );

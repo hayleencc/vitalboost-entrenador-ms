@@ -23,6 +23,7 @@ public class Entrenador {
     private String especialidad;
     private String universidad;
     private String datosConsultorio;
+    private String biografia;
 
     @Column(name = "anios_experiencia")
     private int aniosExperiencia;
@@ -31,6 +32,21 @@ public class Entrenador {
     private List<ModalidadCosto> costos;
 
     public Entrenador(){
+    }
+
+    public Entrenador(UUID id, String nombreCompleto, String email, String profesion, String especialidad,
+                         String universidad, String datosConsultorio, String biografia,
+                         int aniosExperiencia, List<ModalidadCosto> costos) {
+        this.id = id;
+        this.nombreCompleto = nombreCompleto;
+        this.email = email;
+        this.profesion = profesion;
+        this.especialidad = especialidad;
+        this.universidad = universidad;
+        this.datosConsultorio = datosConsultorio;
+        this.biografia = biografia;
+        this.aniosExperiencia = aniosExperiencia;
+        this.costos = costos;
     }
 
     public UUID getId() { return id; }
@@ -68,4 +84,12 @@ public class Entrenador {
 
     public int getAniosExperiencia() { return aniosExperiencia; }
     public void setAniosExperiencia(int aniosExperiencia) { this.aniosExperiencia = aniosExperiencia; }
+
+    public String getBiografia() {
+        return biografia;
+    }
+
+    public void setBiografia(String biografia) {
+        this.biografia = biografia;
+    }
 }
