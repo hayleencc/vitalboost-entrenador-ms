@@ -12,9 +12,9 @@ import java.util.UUID;
 @Repository
 public interface EntrenadorRepository extends JpaRepository<Entrenador, UUID> {
 
-    @Query("SELECT c FROM Entrenador c WHERE " +
-            "(:especialidad IS NULL OR :especialidad = '' OR LOWER(c.especialidad) LIKE LOWER(CONCAT('%', :especialidad, '%'))) AND " +
-            "(:modalidad IS NULL OR :modalidad = '' OR LOWER(c.modalidad) LIKE LOWER(CONCAT('%', :modalidad, '%')))"
+    @Query("SELECT DISTINCT e FROM Entrenador e LEFT JOIN e.costos c " +
+            "WHERE (:especialidad IS NULL OR LOWER(e.especialidad) LIKE LOWER(CONCAT('%', :especialidad, '%'))) " +
+            "AND (:modalidad IS NULL OR LOWER(c.modalidad) LIKE LOWER(CONCAT('%', :modalidad, '%')))"
     )
     List<Entrenador> searchEntrenadores(
             @Param("especialidad") String especialidad,

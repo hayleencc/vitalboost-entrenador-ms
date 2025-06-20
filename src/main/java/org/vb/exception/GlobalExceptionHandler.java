@@ -2,6 +2,7 @@ package org.vb.exception;
 
 import com.github.fge.jsonpatch.JsonPatchException;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,6 +29,20 @@ public class GlobalExceptionHandler {
         error.put("error", "Bad Request");
         error.put("message", "Error al aplicar el parche JSON: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, String>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        String message = "Error de integridad de datos";
+
+        if (ex.getRootCause() != null && ex.getRootCause().getMessage().contains("entrenadores_email_key")) {
+            message = "Ya existe un entrenador con ese email";
+        }
+
+        Map<String, String> response = new HashMap<>();
+        response.put("error", message);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(Exception.class)

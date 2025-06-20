@@ -1,5 +1,6 @@
 package org.vb.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -42,8 +43,9 @@ public class ModalidadCosto {
         return entrenador;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "entrenador_id")
+    @JsonBackReference
     private Entrenador entrenador;
 
     public ModalidadCosto(){}

@@ -9,10 +9,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.vb.dto.request.CreateEntrenadorDTO;
 import org.vb.dto.request.ModalidadCostoDTO;
 import org.vb.dto.request.UpdateEntrenadorDTO;
+import org.vb.dto.response.EntrenadorResponseDTO;
 import org.vb.mapper.EntrenadorMapper;
 import org.vb.model.entity.Entrenador;
 import org.vb.model.entity.ModalidadCosto;
 import org.vb.repository.EntrenadorRepository;
+import org.vb.service.utils.TestDataFactory;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
@@ -39,118 +42,100 @@ class EntrenadorServiceTest{
 
     @Test
     void createEntrenador_shouldSaveAndReturnEntity(){
-        CreateEntrenadorDTO dto = new CreateEntrenadorDTO();
-        dto.setNombreCompleto("Jhon Doe");
-        dto.setBiografia("Biografia del entrenador");
-        dto.setAniosExperiencia(2);
-
-        Entrenador entrenador = new Entrenador();
-        entrenador.setNombreCompleto("Jhon Doe");
-        entrenador.setBiografia("Biografia del entrenador");
-        entrenador.setAniosExperiencia(2);
-
+        CreateEntrenadorDTO dto = TestDataFactory.createEntrenadorDTO();
+        Entrenador entrenador = TestDataFactory.createEntrenadorEntity();
+        EntrenadorResponseDTO responseDTO = TestDataFactory.createEntrenadorResponseDTO();
 
         when(entrenadorMapper.toEntity(dto)).thenReturn(entrenador);
         when(entrenadorRepository.save(entrenador)).thenReturn(entrenador);
+        when(entrenadorMapper.toResponseDTO(entrenador)).thenReturn(responseDTO);
 
-        Entrenador respuesta = entrenadorService.createEntrenador(dto);
+
+        EntrenadorResponseDTO respuesta = entrenadorService.createEntrenador(dto);
 
         assertNotNull(respuesta);
-
+        assertEquals("Jane Doe", respuesta.getNombreCompleto());
+        assertEquals("Bio", respuesta.getBiografia());
+        assertEquals(5, respuesta.getAniosExperiencia());
         verify(entrenadorMapper).toEntity(dto);
         verify(entrenadorRepository).save(entrenador);
-
+        verify(entrenadorMapper).toResponseDTO(entrenador);
     }
 
     @Test
     void createEntrenador_withCostos_shouldMapAndSaveCorrectly() {
-        CreateEntrenadorDTO dto = new CreateEntrenadorDTO();
-        dto.setNombreCompleto("Jane Doe");
-        dto.setBiografia("Bio");
-        dto.setAniosExperiencia(5);
-
-        Entrenador entrenador = new Entrenador();
-        entrenador.setNombreCompleto("Jane Doe");
-        entrenador.setBiografia("Bio");
-        entrenador.setAniosExperiencia(5);
-
-        ModalidadCostoDTO costoDTO = new ModalidadCostoDTO();
-        costoDTO.setModalidad("online");
-        costoDTO.setCosto(BigDecimal.valueOf(30.0));
-
-        ModalidadCosto costo = new ModalidadCosto();
-        costo.setModalidad("online");
-        costo.setCosto(BigDecimal.valueOf(30.0));
-
-        dto.setCostos(List.of(costoDTO));
-        entrenador.setCostos(List.of(costo));
-
+        CreateEntrenadorDTO dto = TestDataFactory.createEntrenadorDTO();
+        Entrenador entrenador = TestDataFactory.createEntrenadorEntity();
+        EntrenadorResponseDTO responseDTO = TestDataFactory.createEntrenadorResponseDTO();
 
         when(entrenadorMapper.toEntity(dto)).thenReturn(entrenador);
         when(entrenadorRepository.save(entrenador)).thenReturn(entrenador);
+        when(entrenadorMapper.toResponseDTO(entrenador)).thenReturn(responseDTO);
 
-        Entrenador result = entrenadorService.createEntrenador(dto);
+
+        EntrenadorResponseDTO result = entrenadorService.createEntrenador(dto);
+
 
         assertNotNull(result);
+        assertEquals("Jane Doe", result.getNombreCompleto());
         assertEquals(1, result.getCostos().size());
         assertEquals("online", result.getCostos().get(0).getModalidad());
         assertEquals(BigDecimal.valueOf(30.0), result.getCostos().get(0).getCosto());
 
         verify(entrenadorMapper).toEntity(dto);
         verify(entrenadorRepository).save(entrenador);
+        verify(entrenadorMapper).toResponseDTO(entrenador);
+
     }
     @Test
     void getEntrenadores_withoutParameters_shouldReturnList() {
-        Entrenador entrenador1 = new Entrenador();
-        entrenador1.setNombreCompleto("Entrenador 1");
-        entrenador1.setBiografia("Bio 1");
-        entrenador1.setAniosExperiencia(3);
-
-        Entrenador entrenador2 = new Entrenador();
-        entrenador2.setNombreCompleto("Entrenador 2");
-        entrenador2.setBiografia("Bio 2");
-        entrenador2.setAniosExperiencia(5);
+        Entrenador entrenador1 = TestDataFactory.createEntrenadorEntity();
+        Entrenador entrenador2 = TestDataFactory.createEntrenadorEntityTwo();
+        EntrenadorResponseDTO responseDTO1 = TestDataFactory.createEntrenadorResponseDTO();
+        EntrenadorResponseDTO responseDTO2 = TestDataFactory.createEntrenadorResponseDTOTwo();
 
         List<Entrenador> entrenadores = List.of(entrenador1, entrenador2);
 
         when(entrenadorRepository.searchEntrenadores(null, null)).thenReturn(entrenadores);
 
-       List<Entrenador> result = entrenadorService.getEntrenadores(null, null);
+        when(entrenadorMapper.toResponseDTO(entrenador1)).thenReturn(responseDTO1);
+        when(entrenadorMapper.toResponseDTO(entrenador2)).thenReturn(responseDTO2);
+
+
+       List<EntrenadorResponseDTO> result = entrenadorService.getEntrenadores(null, null);
 
         assertNotNull(result);
         assertEquals(2, result.size());
+        assertEquals(responseDTO1.getNombreCompleto(), result.get(0).getNombreCompleto());
+        assertEquals(responseDTO2.getNombreCompleto(), result.get(1).getNombreCompleto());
 
         verify(entrenadorRepository).searchEntrenadores(null, null);
+        verify(entrenadorMapper).toResponseDTO(entrenador1);
+        verify(entrenadorMapper).toResponseDTO(entrenador2);
     }
     @Test
     void getEntrenadores_withModalidad_shouldReturnFilteredList() {
+        Entrenador entrenador1 = TestDataFactory.createEntrenadorEntity();
+        EntrenadorResponseDTO responseDTO1 = TestDataFactory.createEntrenadorResponseDTO();
 
-        Entrenador entrenador1 = new Entrenador();
-        entrenador1.setNombreCompleto("Entrenador 1");
-        entrenador1.setBiografia("Bio 1");
-        entrenador1.setAniosExperiencia(3);
-        ModalidadCosto costo = new ModalidadCosto();
-        costo.setModalidad("online");
-        costo.setCosto(BigDecimal.valueOf(30.0));
-        entrenador1.setCostos(List.of(costo));
 
         List<Entrenador> entrenadoresFiltrados = List.of(entrenador1);
         when(entrenadorRepository.searchEntrenadores(null, "online")).thenReturn(entrenadoresFiltrados);
+        when(entrenadorMapper.toResponseDTO(entrenador1)).thenReturn(responseDTO1);
 
-        List<Entrenador> result = entrenadorService.getEntrenadores(null, "online");
+        List<EntrenadorResponseDTO> result = entrenadorService.getEntrenadores(null, "online");
 
         assertEquals(1, result.size());
-        assertEquals("Entrenador 1", result.get(0).getNombreCompleto());
+        assertEquals("Jane Doe", result.get(0).getNombreCompleto());
         verify(entrenadorRepository).searchEntrenadores(null, "online");
     }
 
     @Test
     void getEntrenadores_sinFiltros_shouldReturnEmptyListIfThereIsNoEntrenadores() {
-
         List<Entrenador> entrenadoresFiltrados = new ArrayList<>();
         when(entrenadorRepository.searchEntrenadores(null, null)).thenReturn(entrenadoresFiltrados);
 
-        List<Entrenador> result = entrenadorService.getEntrenadores(null, null);
+        List<EntrenadorResponseDTO> result = entrenadorService.getEntrenadores(null, null);
 
         assertEquals(0, result.size());
         verify(entrenadorRepository).searchEntrenadores(null, null);
@@ -159,18 +144,21 @@ class EntrenadorServiceTest{
     @Test
     void getEntrenadorById_existingId_shouldReturnEntrenador() {
         UUID id = UUID.randomUUID();
-        Entrenador entrenador = new Entrenador(id, "Entrenador Test", "email@test.com", "Profesion",
-                "Especialidad", "Universidad", "Consultorio",
-                "Biografia", 5, List.of());
+        Entrenador entrenador = TestDataFactory.createEntrenadorEntityWithId(id);
+        EntrenadorResponseDTO responseDTO = TestDataFactory.createEntrenadorResponseDTOWithId(id);
 
         when(entrenadorRepository.findById(id)).thenReturn(Optional.of(entrenador));
+        when(entrenadorMapper.toResponseDTO(entrenador)).thenReturn(responseDTO);
 
-        Entrenador result = entrenadorService.getEntrenadorById(id);
+
+        EntrenadorResponseDTO result = entrenadorService.getEntrenadorById(id);
 
         assertNotNull(result);
         assertEquals(id, result.getId());
-        assertEquals("Entrenador Test", result.getNombreCompleto());
+        assertEquals("Jane Doe", result.getNombreCompleto());
         verify(entrenadorRepository).findById(id);
+        verify(entrenadorMapper).toResponseDTO(entrenador);
+
     }
 
     @Test
@@ -190,14 +178,8 @@ class EntrenadorServiceTest{
     @Test
     void patchEntrenador_existingId_shouldUpdateAndReturnEntrenador() {
         UUID id = UUID.randomUUID();
-        Entrenador entrenador = new Entrenador(id, "Entrenador Test", "email@test.com", "Profesion",
-                "Especialidad", "Universidad", "Consultorio",
-                "Biografia", 5, List.of());
-
-
-        UpdateEntrenadorDTO dto = new UpdateEntrenadorDTO();
-        dto.setNombreCompleto("Nombre Actualizado");
-        dto.setAniosExperiencia(10);
+        Entrenador entrenador = TestDataFactory.createEntrenadorEntityWithId(id);
+        UpdateEntrenadorDTO dto = TestDataFactory.updateEntrenadorDTO();
 
         when(entrenadorRepository.findById(id)).thenReturn(Optional.of(entrenador));
         when(entrenadorRepository.save(any(Entrenador.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -216,7 +198,13 @@ class EntrenadorServiceTest{
             return null;
         }).when(entrenadorMapper).updateEntrenadorFromDto(any(UpdateEntrenadorDTO.class), any(Entrenador.class));
 
-        Entrenador result = entrenadorService.patchEntrenador(id, dto);
+        EntrenadorResponseDTO responseDTO = TestDataFactory.createEntrenadorResponseDTOWithId(id);
+        responseDTO.setNombreCompleto(dto.getNombreCompleto());
+        responseDTO.setAniosExperiencia(dto.getAniosExperiencia());
+
+        when(entrenadorMapper.toResponseDTO(any(Entrenador.class))).thenReturn(responseDTO);
+
+        EntrenadorResponseDTO result = entrenadorService.patchEntrenador(id, dto);
 
         assertNotNull(result);
         assertEquals("Nombre Actualizado", result.getNombreCompleto());
@@ -225,26 +213,17 @@ class EntrenadorServiceTest{
         verify(entrenadorRepository).findById(id);
         verify(entrenadorMapper).updateEntrenadorFromDto(eq(dto), any(Entrenador.class));
         verify(entrenadorRepository).save(any(Entrenador.class));
+        verify(entrenadorMapper).toResponseDTO(any(Entrenador.class));
     }
 
     @Test
     void patchEntrenador_givingCostosDTO_shouldReplaceAllCostosSaved() {
         UUID id = UUID.randomUUID();
 
-        ModalidadCosto costoPrevio = new ModalidadCosto();
-        costoPrevio.setModalidad("presencial");
-        costoPrevio.setCosto(BigDecimal.valueOf(50));
+        Entrenador entrenador = TestDataFactory.createEntrenadorEntityWithId(id);
 
-        Entrenador entrenador = new Entrenador(id, "Nombre", "email@test.com", "Profesion",
-                "Especialidad", "Universidad", "Consultorio",
-                "Biografia", 5, new ArrayList<>(List.of(costoPrevio)));
-
-        ModalidadCostoDTO costoNuevo1 = new ModalidadCostoDTO();
-        costoNuevo1.setModalidad("online");
-        costoNuevo1.setCosto(BigDecimal.valueOf(30));
-        ModalidadCostoDTO costoNuevo2 = new ModalidadCostoDTO();
-        costoNuevo2.setModalidad("presencial");
-        costoNuevo2.setCosto(BigDecimal.valueOf(45));
+        ModalidadCostoDTO costoNuevo1 = TestDataFactory.createModalidadCostoDTO("online", BigDecimal.valueOf(30));
+        ModalidadCostoDTO costoNuevo2 = TestDataFactory.createModalidadCostoDTO("presencial", BigDecimal.valueOf(45));
 
         UpdateEntrenadorDTO dto = new UpdateEntrenadorDTO();
         dto.setCostos(List.of(costoNuevo1, costoNuevo2));
@@ -252,24 +231,33 @@ class EntrenadorServiceTest{
         when(entrenadorRepository.findById(id)).thenReturn(Optional.of(entrenador));
         when(entrenadorRepository.save(any(Entrenador.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        ModalidadCosto costo1 = new ModalidadCosto();
-        costo1.setModalidad("online");
-        costo1.setCosto(BigDecimal.valueOf(30));
-
-        ModalidadCosto costo2 = new ModalidadCosto();
-        costo2.setModalidad("presencial");
-        costo2.setCosto(BigDecimal.valueOf(45));
-
-        List<ModalidadCosto> costosEntidad = List.of(costo1,costo2);
+        List<ModalidadCosto> costosEntidad = List.of(
+                TestDataFactory.createModalidadCosto("online", BigDecimal.valueOf(30)),
+                TestDataFactory.createModalidadCosto("presencial", BigDecimal.valueOf(45))
+        );
 
         when(entrenadorMapper.toModalidadCostoList(dto.getCostos())).thenReturn(costosEntidad);
         doNothing().when(entrenadorMapper).updateEntrenadorFromDto(any(), any());
 
-        Entrenador result = entrenadorService.patchEntrenador(id, dto);
+
+        EntrenadorResponseDTO responseDTO = TestDataFactory.createEntrenadorResponseDTOWithIdAndCostos(
+                id,
+                List.of(
+                        TestDataFactory.createModalidadCostoResponseDTO("online", BigDecimal.valueOf(30)),
+                        TestDataFactory.createModalidadCostoResponseDTO("presencial", BigDecimal.valueOf(45))
+                )
+        );
+
+        when(entrenadorMapper.toResponseDTO(any(Entrenador.class))).thenReturn(responseDTO);
+
+
+        EntrenadorResponseDTO result = entrenadorService.patchEntrenador(id, dto);
 
         assertEquals(2, result.getCostos().size());
-        assertTrue(result.getCostos().stream().anyMatch(c -> c.getModalidad().equals("online") && c.getCosto().equals(BigDecimal.valueOf(30))));
-        assertTrue(result.getCostos().stream().anyMatch(c -> c.getModalidad().equals("presencial") && c.getCosto().equals(BigDecimal.valueOf(45))));
+        assertTrue(result.getCostos().stream()
+                .anyMatch(c -> c.getModalidad().equals("online") && c.getCosto().equals(BigDecimal.valueOf(30))));
+        assertTrue(result.getCostos().stream()
+                .anyMatch(c -> c.getModalidad().equals("presencial") && c.getCosto().equals(BigDecimal.valueOf(45))));
 
         verify(entrenadorRepository).save(any());
     }

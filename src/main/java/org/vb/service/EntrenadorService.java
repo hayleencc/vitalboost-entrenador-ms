@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.vb.dto.request.CreateEntrenadorDTO;
 import org.vb.dto.request.UpdateEntrenadorDTO;
+import org.vb.dto.response.EntrenadorResponseDTO;
 import org.vb.mapper.EntrenadorMapper;
 import org.vb.model.entity.Entrenador;
 import org.vb.model.entity.ModalidadCosto;
@@ -11,6 +12,7 @@ import org.vb.repository.EntrenadorRepository;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class EntrenadorService {
@@ -24,26 +26,30 @@ public class EntrenadorService {
         this.entrenadorMapper = entrenadorMapper;
     }
 
-    public Entrenador createEntrenador(CreateEntrenadorDTO entrenador) {
+    public EntrenadorResponseDTO createEntrenador(CreateEntrenadorDTO entrenador) {
         Entrenador nuevoEntrenador = entrenadorMapper.toEntity(entrenador);
-        return entrenadorRepository.save(nuevoEntrenador);
-
+        Entrenador entrenadorGuardado = entrenadorRepository.save(nuevoEntrenador);
+        return entrenadorMapper.toResponseDTO(entrenadorGuardado);
     }
 
-    public List<Entrenador> getEntrenadores(String especialidad, String modalidad) {
+    public List<EntrenadorResponseDTO> getEntrenadores(String especialidad, String modalidad) {
         especialidad = (especialidad == null || especialidad.isBlank()) ? null : especialidad;
         modalidad = (modalidad == null || modalidad.isBlank()) ? null : modalidad;
-        return entrenadorRepository.searchEntrenadores(especialidad, modalidad);
+        List<Entrenador> entrenadores = entrenadorRepository.searchEntrenadores(especialidad, modalidad);
+        return entrenadores.stream()
+                .map(entrenadorMapper::toResponseDTO)
+                .collect(Collectors.toList());
     }
 
-    public Entrenador getEntrenadorById(UUID id) {
-        return entrenadorRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("No se encontró al coach con ID: " + id));
+    public EntrenadorResponseDTO getEntrenadorById(UUID id) {
+        Entrenador entrenador = entrenadorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se encontró al entrenador con ID: " + id));
+        return entrenadorMapper.toResponseDTO(entrenador);
     }
 
-    public Entrenador patchEntrenador(UUID id, UpdateEntrenadorDTO entrenadorToUpdate) {
+    public EntrenadorResponseDTO patchEntrenador(UUID id, UpdateEntrenadorDTO entrenadorToUpdate) {
         Entrenador existingEntrenador = entrenadorRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("No se encontró al coach con ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("No se encontró al entrenador con ID: " + id));
 
         entrenadorMapper.updateEntrenadorFromDto(entrenadorToUpdate, existingEntrenador);
         if (entrenadorToUpdate.getCostos() != null) {
@@ -51,7 +57,8 @@ public class EntrenadorService {
             existingEntrenador.getCostos().clear();
             existingEntrenador.getCostos().addAll(costos);
         }
-
-        return entrenadorRepository.save(existingEntrenador);
+        Entrenador entrenadorGuardado = entrenadorRepository.save(existingEntrenador);
+        return entrenadorMapper.toResponseDTO(entrenadorGuardado);
     }
+
 }

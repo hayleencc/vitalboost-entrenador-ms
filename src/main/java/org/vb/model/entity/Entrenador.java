@@ -1,7 +1,9 @@
 package org.vb.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,7 +31,8 @@ public class Entrenador {
     private int aniosExperiencia;
 
     @OneToMany(mappedBy = "entrenador", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ModalidadCosto> costos;
+    @JsonManagedReference
+    private List<ModalidadCosto> costos = new ArrayList<>();
 
     public Entrenador(){
     }

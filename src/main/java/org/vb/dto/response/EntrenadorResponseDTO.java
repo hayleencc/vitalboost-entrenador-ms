@@ -13,6 +13,9 @@ public class EntrenadorResponseDTO {
     private String especialidad;
     private String universidad;
     private int aniosExperiencia;
+    private List<ModalidadCostoResponseDTO> costos;
+    private String biografia;
+    private String datosConsultorio;
 
     public String getBiografia() {
         return biografia;
@@ -38,9 +41,6 @@ public class EntrenadorResponseDTO {
         this.costos = costos;
     }
 
-    private List<ModalidadCostoResponseDTO> costos;
-    private String biografia;
-    private String datosConsultorio;
 
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
