@@ -32,8 +32,9 @@ Este proyecto implementa un microservicio REST para crear, consultar, actualizar
 ```mvn spring-boot:run```
 
 
-4. La aplicación arrancará en `http://localhost:8080` 
+4. La aplicación arrancará en `http://localhost:8080`
 
+5. Para probar los endpoints existentes puedes acceder a ```http://localhost:8080/swagger-ui/index.html```
 
 ## Testing
 Se puede usar el comando ```mvn test```
