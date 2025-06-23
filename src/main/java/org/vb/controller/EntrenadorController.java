@@ -34,9 +34,14 @@ public class EntrenadorController{
             @ApiResponse(responseCode = "400", description = "Ocurrión un error")
     })
     @PostMapping
-    public ResponseEntity<EntrenadorResponseDTO> createCoach(@Valid @RequestBody CreateEntrenadorDTO entrenador) {
-        EntrenadorResponseDTO nuevoEntrenador = entrenadorService.createEntrenador(entrenador);
-        return new ResponseEntity<>(nuevoEntrenador, HttpStatus.CREATED);
+    public ResponseEntity<?> createEntrenador(@Valid @RequestBody CreateEntrenadorDTO entrenador) {
+        try {
+            EntrenadorResponseDTO nuevoEntrenador = entrenadorService.createEntrenador(entrenador);
+            return new ResponseEntity<>(nuevoEntrenador, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error al crear entrenador: " + e.getMessage());
+        }
     }
 
     @Operation(summary = "Listar coaches registrados")

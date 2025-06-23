@@ -4,6 +4,7 @@ import jakarta.validation.constraints.*;
 import java.util.List;
 
 public class CreateEntrenadorDTO {
+    private String id;
 
     @NotBlank(message = "El nombre completo es requerido")
     private String nombreCompleto;
@@ -23,33 +24,54 @@ public class CreateEntrenadorDTO {
     private String biografia;
     private String datosConsultorio;
     private String rol;
-    private String id;
 
-    public String getId() {
-        return id;
+    public String getNombreCompleto() {
+        return nombreCompleto;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
     }
 
-    public String getNombreCompleto() { return nombreCompleto; }
-    public void setNombreCompleto(String nombreCompleto) { this.nombreCompleto = nombreCompleto; }
+    public String getEmail() {
+        return email;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public String getProfesion() { return profesion; }
-    public void setProfesion(String profesion) { this.profesion = profesion; }
+    public String getProfesion() {
+        return profesion;
+    }
 
-    public String getEspecialidad() { return especialidad; }
-    public void setEspecialidad(String especialidad) { this.especialidad = especialidad; }
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
+    }
 
-    public String getUniversidad() { return universidad; }
-    public void setUniversidad(String universidad) { this.universidad = universidad; }
+    public String getEspecialidad() {
+        return especialidad;
+    }
 
-    public int getAniosExperiencia() { return aniosExperiencia; }
-    public void setAniosExperiencia(int aniosExperiencia) { this.aniosExperiencia = aniosExperiencia; }
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
+
+    public String getUniversidad() {
+        return universidad;
+    }
+
+    public void setUniversidad(String universidad) {
+        this.universidad = universidad;
+    }
+
+    public int getAniosExperiencia() {
+        return aniosExperiencia;
+    }
+
+    public void setAniosExperiencia(int aniosExperiencia) {
+        this.aniosExperiencia = aniosExperiencia;
+    }
 
     public List<ModalidadCostoDTO> getCostos() {
         return costos;
@@ -81,5 +103,13 @@ public class CreateEntrenadorDTO {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

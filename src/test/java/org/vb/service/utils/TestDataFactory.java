@@ -32,6 +32,7 @@ public class TestDataFactory {
 
     public static Entrenador createEntrenadorEntity() {
         Entrenador entrenador = new Entrenador();
+        entrenador.setId(ENTRENADOR_ID);
         entrenador.setNombreCompleto("Jane Doe");
         entrenador.setBiografia("Bio");
         entrenador.setAniosExperiencia(5);
@@ -45,6 +46,7 @@ public class TestDataFactory {
 
     public static Entrenador createEntrenadorEntityTwo() {
         Entrenador entrenador = new Entrenador();
+        entrenador.setId(ENTRENADOR_ID);
         entrenador.setNombreCompleto("Jhon Doe");
         entrenador.setBiografia("Bio");
         entrenador.setAniosExperiencia(3);
@@ -142,28 +144,11 @@ public class TestDataFactory {
         return dto;
     }
 
-    public static Entrenador createEntrenadorEntityWithIdAndCostos(String id, List<ModalidadCosto> costos) {
-        return new Entrenador(
-                id,
-                "Jane Doe",
-                "email@test.com",
-                "Profesion",
-                "Especialidad",
-                "Universidad",
-                "Consultorio",
-                "Biografia",
-                5,
-                costos,
-                "entrenador"
-        );
-    }
-
     public static EntrenadorResponseDTO createEntrenadorResponseDTOWithIdAndCostos(
-            String id,
             List<ModalidadCostoResponseDTO> costos
     ) {
         EntrenadorResponseDTO dto = new EntrenadorResponseDTO();
-        dto.setId(id);
+        dto.setId(ENTRENADOR_ID);
         dto.setNombreCompleto("Jane Doe");
         dto.setBiografia("Biografia");
         dto.setAniosExperiencia(5);

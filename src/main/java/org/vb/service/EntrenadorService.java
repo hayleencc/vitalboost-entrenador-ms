@@ -27,6 +27,13 @@ public class EntrenadorService {
 
     public EntrenadorResponseDTO createEntrenador(CreateEntrenadorDTO entrenador) {
         Entrenador nuevoEntrenador = entrenadorMapper.toEntity(entrenador);
+        if (nuevoEntrenador.getId() == null) {
+            throw new IllegalArgumentException("El ID del entrenador no puede ser nulo");
+        }
+        if (entrenadorRepository.existsById(entrenador.getId())) {
+            throw new IllegalArgumentException("El ID ya existe en el sistema");
+        }
+
         Entrenador entrenadorGuardado = entrenadorRepository.save(nuevoEntrenador);
         return entrenadorMapper.toResponseDTO(entrenadorGuardado);
     }

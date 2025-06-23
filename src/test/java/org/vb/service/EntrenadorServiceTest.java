@@ -241,7 +241,6 @@ class EntrenadorServiceTest{
 
 
         EntrenadorResponseDTO responseDTO = TestDataFactory.createEntrenadorResponseDTOWithIdAndCostos(
-                id,
                 List.of(
                         TestDataFactory.createModalidadCostoResponseDTO("online", BigDecimal.valueOf(30)),
                         TestDataFactory.createModalidadCostoResponseDTO("presencial", BigDecimal.valueOf(45))

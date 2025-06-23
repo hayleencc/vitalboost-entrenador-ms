@@ -14,11 +14,17 @@ import java.util.List;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public abstract class EntrenadorMapper {
 
-    @Mapping(target = "costos", source = "costos")
+    @Mappings({
+            @Mapping(target = "id", source = "id"),
+            @Mapping(target = "costos", source = "costos")
+    })
     public abstract Entrenador toEntity(CreateEntrenadorDTO entrenadorDTO);
     public abstract ModalidadCosto toModalidadCosto(ModalidadCostoDTO dto);
 
-    @Mapping(target = "rol", ignore = true)
+    @Mappings({
+            @Mapping(target = "rol", ignore = true),
+            @Mapping(target = "id", ignore = true)
+    })
     public abstract void updateEntrenadorFromDto(UpdateEntrenadorDTO dto, @MappingTarget Entrenador entity);
 
     public abstract List<ModalidadCosto> toModalidadCostoList(List<ModalidadCostoDTO> dtos);
