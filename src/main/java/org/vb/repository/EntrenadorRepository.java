@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface EntrenadorRepository extends JpaRepository<Entrenador, UUID> {
+public interface EntrenadorRepository extends JpaRepository<Entrenador, String> {
 
     @Query("SELECT DISTINCT e FROM Entrenador e LEFT JOIN e.costos c " +
             "WHERE (:especialidad IS NULL OR LOWER(e.especialidad) LIKE LOWER(CONCAT('%', :especialidad, '%'))) " +

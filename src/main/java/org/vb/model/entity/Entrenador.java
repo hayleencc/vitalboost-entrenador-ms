@@ -5,15 +5,13 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "entrenadores")
 public class Entrenador {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
 
     @Column(name = "nombre_completo", nullable = false)
     private String nombreCompleto;
@@ -26,6 +24,7 @@ public class Entrenador {
     private String universidad;
     private String datosConsultorio;
     private String biografia;
+    private String rol;
 
     @Column(name = "anios_experiencia")
     private int aniosExperiencia;
@@ -37,9 +36,9 @@ public class Entrenador {
     public Entrenador(){
     }
 
-    public Entrenador(UUID id, String nombreCompleto, String email, String profesion, String especialidad,
+    public Entrenador(String id, String nombreCompleto, String email, String profesion, String especialidad,
                          String universidad, String datosConsultorio, String biografia,
-                         int aniosExperiencia, List<ModalidadCosto> costos) {
+                         int aniosExperiencia, List<ModalidadCosto> costos, String rol) {
         this.id = id;
         this.nombreCompleto = nombreCompleto;
         this.email = email;
@@ -50,9 +49,10 @@ public class Entrenador {
         this.biografia = biografia;
         this.aniosExperiencia = aniosExperiencia;
         this.costos = costos;
+        this.rol=rol;
     }
 
-    public UUID getId() { return id; }
+    public String getId() { return id; }
 
     public String getNombreCompleto() { return nombreCompleto; }
     public void setNombreCompleto(String nombreCompleto) { this.nombreCompleto = nombreCompleto; }
@@ -79,6 +79,14 @@ public class Entrenador {
 
     public List<ModalidadCosto> getCostos() {
         return costos;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
     public void setCostos(List<ModalidadCosto> costos) {

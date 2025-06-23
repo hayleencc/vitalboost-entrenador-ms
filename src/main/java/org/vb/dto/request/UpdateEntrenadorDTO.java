@@ -4,7 +4,7 @@ package org.vb.dto.request;
 import java.util.List;
 
 public class UpdateEntrenadorDTO {
-
+    private String id;
     private String nombreCompleto;
     private String email;
     private String profesion;
@@ -15,6 +15,14 @@ public class UpdateEntrenadorDTO {
     private String biografia;
     private String datosConsultorio;
     private List<String> modalidades;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getNombreCompleto() { return nombreCompleto; }
     public void setNombreCompleto(String nombreCompleto) { this.nombreCompleto = nombreCompleto; }

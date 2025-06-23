@@ -18,6 +18,7 @@ public abstract class EntrenadorMapper {
     public abstract Entrenador toEntity(CreateEntrenadorDTO entrenadorDTO);
     public abstract ModalidadCosto toModalidadCosto(ModalidadCostoDTO dto);
 
+    @Mapping(target = "rol", ignore = true)
     public abstract void updateEntrenadorFromDto(UpdateEntrenadorDTO dto, @MappingTarget Entrenador entity);
 
     public abstract List<ModalidadCosto> toModalidadCostoList(List<ModalidadCostoDTO> dtos);

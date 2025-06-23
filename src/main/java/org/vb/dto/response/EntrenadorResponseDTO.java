@@ -1,12 +1,10 @@
 package org.vb.dto.response;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 public class EntrenadorResponseDTO {
 
-    private UUID id;
+    private String id;
     private String nombreCompleto;
     private String email;
     private String profesion;
@@ -16,6 +14,7 @@ public class EntrenadorResponseDTO {
     private List<ModalidadCostoResponseDTO> costos;
     private String biografia;
     private String datosConsultorio;
+    private String rol;
 
     public String getBiografia() {
         return biografia;
@@ -42,8 +41,8 @@ public class EntrenadorResponseDTO {
     }
 
 
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getNombreCompleto() { return nombreCompleto; }
     public void setNombreCompleto(String nombreCompleto) { this.nombreCompleto = nombreCompleto; }
@@ -63,4 +62,11 @@ public class EntrenadorResponseDTO {
     public int getAniosExperiencia() { return aniosExperiencia; }
     public void setAniosExperiencia(int aniosExperiencia) { this.aniosExperiencia = aniosExperiencia; }
 
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
 }
