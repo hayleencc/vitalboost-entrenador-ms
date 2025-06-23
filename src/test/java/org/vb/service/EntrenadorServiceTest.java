@@ -143,7 +143,7 @@ class EntrenadorServiceTest{
 
     @Test
     void getEntrenadorById_existingId_shouldReturnEntrenador() {
-        UUID id = UUID.randomUUID();
+        String id = TestDataFactory.ENTRENADOR_ID;
         Entrenador entrenador = TestDataFactory.createEntrenadorEntityWithId(id);
         EntrenadorResponseDTO responseDTO = TestDataFactory.createEntrenadorResponseDTOWithId(id);
 
@@ -163,7 +163,7 @@ class EntrenadorServiceTest{
 
     @Test
     void getEntrenadorById_nonExistingId_shouldThrowException() {
-        UUID id = UUID.randomUUID();
+        String id = TestDataFactory.ENTRENADOR_ID;
 
         when(entrenadorRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -171,13 +171,13 @@ class EntrenadorServiceTest{
             entrenadorService.getEntrenadorById(id);
         });
 
-        assertTrue(exception.getMessage().contains(id.toString()));
+        assertTrue(exception.getMessage().contains(id));
         verify(entrenadorRepository).findById(id);
     }
 
     @Test
     void patchEntrenador_existingId_shouldUpdateAndReturnEntrenador() {
-        UUID id = UUID.randomUUID();
+        String id = TestDataFactory.ENTRENADOR_ID;
         Entrenador entrenador = TestDataFactory.createEntrenadorEntityWithId(id);
         UpdateEntrenadorDTO dto = TestDataFactory.updateEntrenadorDTO();
 
@@ -218,7 +218,7 @@ class EntrenadorServiceTest{
 
     @Test
     void patchEntrenador_givingCostosDTO_shouldReplaceAllCostosSaved() {
-        UUID id = UUID.randomUUID();
+        String id = TestDataFactory.ENTRENADOR_ID;
 
         Entrenador entrenador = TestDataFactory.createEntrenadorEntityWithId(id);
 

@@ -12,30 +12,19 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 public class TestDataFactory {
+    public static final String ENTRENADOR_ID = "XyZ123abcDEF456ghiJKL789mnoPQR012stuVWX";
+
     public static CreateEntrenadorDTO createEntrenadorDTO() {
         CreateEntrenadorDTO dto = new CreateEntrenadorDTO();
+        dto.setId(ENTRENADOR_ID);
         dto.setNombreCompleto("Jane Doe");
         dto.setBiografia("Bio");
         dto.setAniosExperiencia(5);
-
+        dto.setRol("entrenador");
         ModalidadCostoDTO costoDTO = new ModalidadCostoDTO();
         costoDTO.setModalidad("online");
-        costoDTO.setCosto(BigDecimal.valueOf(30.0));
-        dto.setCostos(List.of(costoDTO));
-        return dto;
-    }
-
-    public static CreateEntrenadorDTO createEntrenadorDTOTwo() {
-        CreateEntrenadorDTO dto = new CreateEntrenadorDTO();
-        dto.setNombreCompleto("Jhon Doe");
-        dto.setBiografia("Bio");
-        dto.setAniosExperiencia(3);
-
-        ModalidadCostoDTO costoDTO = new ModalidadCostoDTO();
-        costoDTO.setModalidad("presencial");
         costoDTO.setCosto(BigDecimal.valueOf(30.0));
         dto.setCostos(List.of(costoDTO));
         return dto;
@@ -46,7 +35,7 @@ public class TestDataFactory {
         entrenador.setNombreCompleto("Jane Doe");
         entrenador.setBiografia("Bio");
         entrenador.setAniosExperiencia(5);
-
+        entrenador.setRol("entrenador");
         ModalidadCosto costo = new ModalidadCosto();
         costo.setModalidad("online");
         costo.setCosto(BigDecimal.valueOf(30.0));
@@ -59,7 +48,7 @@ public class TestDataFactory {
         entrenador.setNombreCompleto("Jhon Doe");
         entrenador.setBiografia("Bio");
         entrenador.setAniosExperiencia(3);
-
+        entrenador.setRol("entrenador");
         ModalidadCosto costo = new ModalidadCosto();
         costo.setModalidad("presencial");
         costo.setCosto(BigDecimal.valueOf(30.0));
@@ -69,10 +58,11 @@ public class TestDataFactory {
 
     public static EntrenadorResponseDTO createEntrenadorResponseDTO() {
         EntrenadorResponseDTO dto = new EntrenadorResponseDTO();
+        dto.setId(ENTRENADOR_ID);
         dto.setNombreCompleto("Jane Doe");
         dto.setBiografia("Bio");
         dto.setAniosExperiencia(5);
-
+        dto.setRol("entrenador");
         ModalidadCostoResponseDTO costoDTO = new ModalidadCostoResponseDTO();
         costoDTO.setModalidad("online");
         costoDTO.setCosto(BigDecimal.valueOf(30.0));
@@ -82,10 +72,11 @@ public class TestDataFactory {
 
     public static EntrenadorResponseDTO createEntrenadorResponseDTOTwo() {
         EntrenadorResponseDTO dto = new EntrenadorResponseDTO();
+        dto.setId(ENTRENADOR_ID);
         dto.setNombreCompleto("Jhon Doe");
         dto.setBiografia("Bio");
         dto.setAniosExperiencia(3);
-
+        dto.setRol("entrenador");
         ModalidadCostoResponseDTO costoDTO = new ModalidadCostoResponseDTO();
         costoDTO.setModalidad("presencial");
         costoDTO.setCosto(BigDecimal.valueOf(30.0));
@@ -94,14 +85,14 @@ public class TestDataFactory {
     }
 
 
-    public static Entrenador createEntrenadorEntityWithId(UUID id) {
-        return new Entrenador(id, "Jane Doe", "email@test.com", "Profesion",
+    public static Entrenador createEntrenadorEntityWithId(String id) {
+        return new Entrenador(ENTRENADOR_ID, "Jane Doe", "email@test.com", "Profesion",
                 "Especialidad", "Universidad", "Consultorio",
-                "Biografia", 5, new ArrayList<>(List.of(createModalidadCosto())));
+                "Biografia", 5, new ArrayList<>(List.of(createModalidadCosto())), "entrenador");
     }
 
 
-    public static EntrenadorResponseDTO createEntrenadorResponseDTOWithId(UUID id) {
+    public static EntrenadorResponseDTO createEntrenadorResponseDTOWithId(String id) {
         EntrenadorResponseDTO dto = new EntrenadorResponseDTO();
         dto.setId(id);
         dto.setNombreCompleto("Jane Doe");
@@ -151,7 +142,7 @@ public class TestDataFactory {
         return dto;
     }
 
-    public static Entrenador createEntrenadorEntityWithIdAndCostos(UUID id, List<ModalidadCosto> costos) {
+    public static Entrenador createEntrenadorEntityWithIdAndCostos(String id, List<ModalidadCosto> costos) {
         return new Entrenador(
                 id,
                 "Jane Doe",
@@ -162,12 +153,13 @@ public class TestDataFactory {
                 "Consultorio",
                 "Biografia",
                 5,
-                costos
+                costos,
+                "entrenador"
         );
     }
 
     public static EntrenadorResponseDTO createEntrenadorResponseDTOWithIdAndCostos(
-            UUID id,
+            String id,
             List<ModalidadCostoResponseDTO> costos
     ) {
         EntrenadorResponseDTO dto = new EntrenadorResponseDTO();
@@ -181,6 +173,7 @@ public class TestDataFactory {
         dto.setUniversidad("Universidad");
         dto.setDatosConsultorio("Consultorio");
         dto.setCostos(costos);
+        dto.setRol("entrenador");
         return dto;
     }
 

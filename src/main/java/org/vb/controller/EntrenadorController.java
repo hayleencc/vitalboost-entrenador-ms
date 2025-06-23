@@ -57,7 +57,7 @@ public class EntrenadorController{
             @ApiResponse(responseCode = "404", description = "Coach no encontrado")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<EntrenadorResponseDTO> getCoachById(@PathVariable UUID id) {
+    public ResponseEntity<EntrenadorResponseDTO> getCoachById(@PathVariable String id) {
         EntrenadorResponseDTO entrenador = entrenadorService.getEntrenadorById(id);
         return ResponseEntity.ok(entrenador);
     }
@@ -68,7 +68,7 @@ public class EntrenadorController{
             @ApiResponse(responseCode = "404", description = "Coach no encontrado")
     })
     @PatchMapping("/{id}")
-    public ResponseEntity<EntrenadorResponseDTO> updateCoachPartial(@PathVariable UUID id, @RequestBody UpdateEntrenadorDTO coachDetails) throws JsonPatchException, IOException {
+    public ResponseEntity<EntrenadorResponseDTO> updateCoachPartial(@PathVariable String id, @RequestBody UpdateEntrenadorDTO coachDetails) throws JsonPatchException, IOException {
         EntrenadorResponseDTO updatedEntrenador = entrenadorService.patchEntrenador(id, coachDetails);
         return ResponseEntity.ok(updatedEntrenador);
     }

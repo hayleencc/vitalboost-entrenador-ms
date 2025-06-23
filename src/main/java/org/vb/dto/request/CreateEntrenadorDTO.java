@@ -22,7 +22,16 @@ public class CreateEntrenadorDTO {
     private List<ModalidadCostoDTO> costos;
     private String biografia;
     private String datosConsultorio;
+    private String rol;
+    private String id;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getNombreCompleto() { return nombreCompleto; }
     public void setNombreCompleto(String nombreCompleto) { this.nombreCompleto = nombreCompleto; }
@@ -64,5 +73,13 @@ public class CreateEntrenadorDTO {
 
     public void setDatosConsultorio(String datosConsultorio) {
         this.datosConsultorio = datosConsultorio;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 }

@@ -11,7 +11,6 @@ import org.vb.model.entity.ModalidadCosto;
 import org.vb.repository.EntrenadorRepository;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,13 +40,13 @@ public class EntrenadorService {
                 .collect(Collectors.toList());
     }
 
-    public EntrenadorResponseDTO getEntrenadorById(UUID id) {
+    public EntrenadorResponseDTO getEntrenadorById(String id) {
         Entrenador entrenador = entrenadorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró al entrenador con ID: " + id));
         return entrenadorMapper.toResponseDTO(entrenador);
     }
 
-    public EntrenadorResponseDTO patchEntrenador(UUID id, UpdateEntrenadorDTO entrenadorToUpdate) {
+    public EntrenadorResponseDTO patchEntrenador(String id, UpdateEntrenadorDTO entrenadorToUpdate) {
         Entrenador existingEntrenador = entrenadorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró al entrenador con ID: " + id));
 
