@@ -28,13 +28,24 @@ Este proyecto implementa un microservicio REST para crear, consultar, actualizar
 
 
 3. Construir y ejecutar con Maven:
-```mvn clean install```
-```mvn spring-boot:run```
+
+    ```mvn clean install```
+    
+    ```mvn spring-boot:run```
 
 
-4. La aplicación arrancará en `http://localhost:8080`
+4. La aplicación arrancará en 
 
-5. Para probar los endpoints existentes puedes acceder a ```http://localhost:8080/swagger-ui/index.html```
+    `http://localhost:8080`
+
+
+5. Para probar los endpoints existentes puedes acceder a:
+
+    ```http://localhost:8080/swagger-ui/index.html```
+
+
+__Nota_: en caso de tener problemas con la creacion de la base de datos, se recomienda crearla de forma manual (a través de consola o alguna herramienta de gestión de bases de datos como pgAdmin o TablePlus)_
+
 
 ## Testing
 Se puede usar el comando ```mvn test```
@@ -42,9 +53,16 @@ Se puede usar el comando ```mvn test```
 
 ## Estructura del proyecto
 
+Accede a la carpeta `src` y dentro se encontrará la carpeta `main/java/org/vb` teniendo como carpetas principales:
+- `config/`: Archivos de configuración general
 - `controller/`: Controladores REST
-- `service/`: Lógica de negocio
-- `repository/`: Acceso a datos
-- `dto/`: Objetos de transferencia de datos
+- `dto/`: Objetos de transferencia de datos, tanto para request como response
+- `exception/`: Manejador de excepciones
 - `model/`: Entidades JPA
-- `test/`: Pruebas unitarias
+- `repository/`: Acceso a datos
+- `service/`: Lógica de negocio
+- `resources/`: Configuracion para la base de datos
+
+
+En la carpeta `test/java/org/vb` se encuentra la carpeta con las pruebas unitarias por capas:
+- `service/`: Pruebas unitarias de la capa de servicio
