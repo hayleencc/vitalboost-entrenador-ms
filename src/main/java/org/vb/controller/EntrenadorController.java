@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/entrenadores")
+@RequestMapping(value = {"/entrenadores", "/entrenadores/"})
 public class EntrenadorController{
 
     private final EntrenadorService entrenadorService;
